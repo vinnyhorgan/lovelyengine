@@ -13,6 +13,12 @@ function editor:enter()
 	self.currentScene = nil
 	self.saveScene = false
 	self.saveInput = ffi.new("char[?]", 10)
+
+	-- GAMEOBJECTS
+	self.currentGameobject = nil
+
+	-- RANDOM
+	self.console = Console()
 end
 
 function editor:update(dt)
@@ -35,6 +41,14 @@ function editor:draw()
 				self.saveScene = true
 			end
 
+			if imgui.MenuItem_Bool("New GameObject") then
+				table.insert(self.currentScene.entities, GameObject(randomString(4)))
+			end
+
+			if imgui.MenuItem_Bool("Test Log") then
+				self.console:log("BRUH")
+			end
+
 			if imgui.MenuItem_Bool("Exit") then
 				love.event.push("quit")
 			end
@@ -53,7 +67,7 @@ function editor:draw()
 		imgui.EndMainMenuBar()
 	end
 
-	imgui.ShowDemoWindow()
+	--imgui.ShowDemoWindow()
 
 	if (self.showAbout[0]) then
 		if imgui.Begin("About", self.showAbout, imgui.love.WindowFlags("NoDocking", "NoResize", "NoSavedSettings")) then
@@ -72,6 +86,14 @@ function editor:draw()
 
 	if self.currentScene then
 		imgui.Text("Name: " .. self.currentScene.name)
+
+		imgui.Separator()
+
+		for _, gameobject in pairs(self.currentScene.entities) do
+			if imgui.Button(gameobject.name) then
+				self.currentGameobject = gameobject
+			end
+		end
 
 		if self.saveScene then
 			imgui.OpenPopup_Str("Save")
@@ -102,6 +124,23 @@ function editor:draw()
 			self.currentScene = Scene()
 		end
 	end
+
+	if imgui.Begin("Inspector") then
+		if self.currentGameobject then
+			imgui.Text("Name: " .. self.currentGameobject.name)
+		end
+	end
+	imgui.End()
+
+	if imgui.Begin("Console") then
+		self.console:draw()
+	end
+	imgui.End()
+
+	if imgui.Begin("Viewport") then
+
+	end
+	imgui.End()
 
 	imgui.End()
 
