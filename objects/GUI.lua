@@ -18,7 +18,7 @@ function GUI:draw()
 	imgui.DockSpaceOverViewport()
 
 	if imgui.BeginMainMenuBar() then
-		if imgui.BeginMenu("File") then
+		if imgui.BeginMenu("Menu") then
 			if imgui.MenuItem_Bool("New Scene") then
 
 			end
@@ -31,8 +31,12 @@ function GUI:draw()
 
 			end
 
+			if imgui.MenuItem_Bool("Run") then
+				return state.push(game)
+			end
+
 			if imgui.MenuItem_Bool("Exit") then
-				love.event.push("quit")
+				le.push("quit")
 			end
 
 			imgui.EndMenu()
@@ -59,22 +63,22 @@ function GUI:draw()
 	end
 
 	if imgui.Begin("Scene") then
-		state:current().sceneManager:draw()
+		state.current().sceneManager:draw()
 	end
 	imgui.End()
 
 	if imgui.Begin("Inspector") then
-		state:current().entityManager:draw()
+		state.current().entityManager:draw()
 	end
 	imgui.End()
 
 	if imgui.Begin("Console") then
-		state:current().console:draw()
+		state.current().console:draw()
 	end
 	imgui.End()
 
 	if imgui.Begin("Viewport") then
-		-- TODO
+		state.current().viewport:draw()
 	end
 	imgui.End()
 

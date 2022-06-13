@@ -8,3 +8,7 @@ state = require("lib/gamestate")
 imgui = require("lib/cimgui")
 
 ffi = require("ffi")
+
+lg = love.graphics
+lf = love.filesystem
+le = love.event
