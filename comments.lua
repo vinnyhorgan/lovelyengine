@@ -1,3 +1,7 @@
+--self.saveInput = ffi.new("char[?]", 10)
+--imgui.ShowDemoWindow()
+
+
 --[[ function game:loadScene(name)
 	local scene = binser.deserializeN(love.filesystem.read("scenes/" .. name .. ".scene"))
 
