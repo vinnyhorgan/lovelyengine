@@ -4,6 +4,7 @@ function editor:enter()
 	self.sceneManager = SceneManager()
 	self.entityManager = EntityManager()
 	self.console = Console()
+	self.filesystem = Filesystem()
 	self.viewport = Viewport()
 	self.gui = GUI()
 end

@@ -1,6 +1,6 @@
 GameObject = Object:extend()
 
-function GameObject:new(name)
-	self.name = name
+function GameObject:new()
+	self.name = randomString(5)
 	self.components = {}
 end

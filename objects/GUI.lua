@@ -20,11 +20,11 @@ function GUI:draw()
 	if imgui.BeginMainMenuBar() then
 		if imgui.BeginMenu("Menu") then
 			if imgui.MenuItem_Bool("New Scene") then
-
+				state.current().sceneManager:newScene()
 			end
 
 			if imgui.MenuItem_Bool("Save Scene") then
-
+				state.current().sceneManager:save()
 			end
 
 			if imgui.MenuItem_Bool("New Entity") then
@@ -74,6 +74,11 @@ function GUI:draw()
 
 	if imgui.Begin("Console") then
 		state.current().console:draw()
+	end
+	imgui.End()
+
+	if imgui.Begin("Filesystem") then
+		state.current().filesystem:draw()
 	end
 	imgui.End()
 

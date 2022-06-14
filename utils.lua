@@ -15,3 +15,7 @@ function removeFromTable(tab, item)
 		end
 	end
 end
+
+function pop(tab)
+	table.remove(tab, #tab)
+end
