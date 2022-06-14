@@ -22,9 +22,26 @@ function GUI:draw()
 		if imgui.BeginMenu("System") then
 			if imgui.MenuItem_Bool("Run") then
 				if state.current().sceneManager.current then
-					return state.push(game)
+					local runCommand = state.current().settings:get().run
+
+					if runCommand then
+						os.execute(runCommand)
+					else
+						state.current().console:log("Command not defined in settings: run")
+					end
 				else
-					self.console:log("Cannot run: no scene selected")
+					state.current().console:log("Cannot run: no scene selected")
+				end
+			end
+
+			if imgui.MenuItem_Bool("Edit") then
+				local editCommand = state.current().settings:get().edit
+
+				if editCommand then
+					print(lf.getSaveDirectory() .. "/scripts")
+					os.execute(editCommand .. " " .. lf.getSaveDirectory() .. "/scripts")
+				else
+					state.current().console:log("Command not defined in settings: edit")
 				end
 			end
 
@@ -83,8 +100,8 @@ function GUI:draw()
 	end
 
 	if (self.showSettings[0]) then
-		if imgui.Begin("Project Settings", self.showSettings, imgui.love.WindowFlags("NoDocking", "NoSavedSettings")) then
-			imgui.Text("Settings")
+		if imgui.Begin("Project Settings", self.showSettings, imgui.love.WindowFlags("NoDocking")) then
+			state.current().settings:draw()
 		end
 		imgui.End()
 	end

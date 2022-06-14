@@ -1,6 +1,18 @@
 game = {}
 
-function game:enter(editor)
+function game:enter()
+
+end
+
+function game:update(dt)
+
+end
+
+function game:draw()
+	lg.print("YEEEEEEE")
+end
+
+--[[ function game:enter(editor)
 	self.editor = editor
 
 	self.loadedScripts = {}
@@ -39,4 +51,4 @@ function game:keypressed(key)
 	if key == "escape" then
 		return state.pop()
 	end
-end
+end ]]

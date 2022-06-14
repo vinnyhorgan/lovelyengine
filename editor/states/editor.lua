@@ -1,11 +1,17 @@
 editor = {}
 
 function editor:enter()
+	self.project = "project/"
+	lf.createDirectory(self.project)
+	lf.createDirectory(self.project .. "scenes/")
+	lf.createDirectory(self.project .. "scripts/")
+
 	self.sceneManager = SceneManager()
 	self.entityManager = EntityManager()
 	self.console = Console()
 	self.filesystem = Filesystem()
 	self.viewport = Viewport()
+	self.settings = Settings()
 	self.gui = GUI()
 end
 
