@@ -3,7 +3,7 @@ EntityManager = Object:extend()
 function EntityManager:new()
 	self.current = nil
 
-	self.componentList = {Transform, SpriteRenderer}
+	self.componentList = {SpriteRenderer, Script}
 end
 
 function EntityManager:newEntity()
@@ -34,6 +34,16 @@ function EntityManager:addComponent(component)
 	end
 end
 
+function EntityManager:getComponent(entity, name)
+	for _, component in pairs(entity.components) do
+		if name == component.name then
+			return component
+		end
+	end
+
+	return false
+end
+
 function EntityManager:draw()
 	if self.current then
 		imgui.Text(self.current.name)
@@ -62,6 +72,12 @@ function EntityManager:draw()
 
 				if ffi.string(texture) ~= "" then
 					component.texture = ffi.string(texture)
+				end
+			end
+
+			if component.name ~= "Transform" then
+				if imgui.Button("Remove") then
+					removeFromTable(self.current.components, component)
 				end
 			end
 

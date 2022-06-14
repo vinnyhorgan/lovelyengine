@@ -6,6 +6,7 @@ function GUI:new()
 
 	self.io["ConfigFlags"] = imgui.love.ConfigFlags("DockingEnable")
 
+	self.showSettings = ffi.new("bool[1]")
 	self.showAbout = ffi.new("bool[1]")
 end
 
@@ -20,7 +21,16 @@ function GUI:draw()
 	if imgui.BeginMainMenuBar() then
 		if imgui.BeginMenu("System") then
 			if imgui.MenuItem_Bool("Run") then
-				return state.push(game)
+				if state.current().sceneManager.current then
+					return state.push(game)
+				else
+					self.console:log("Cannot run: no scene selected")
+				end
+			end
+
+			if imgui.MenuItem_Bool("Project Settings") then
+				self.showSettings[0] = true
+				state.current().console:log("Opened window: Project Settings")
 			end
 
 			if imgui.MenuItem_Bool("Exit") then
@@ -70,6 +80,13 @@ function GUI:draw()
 		end
 
 		imgui.EndMainMenuBar()
+	end
+
+	if (self.showSettings[0]) then
+		if imgui.Begin("Project Settings", self.showSettings, imgui.love.WindowFlags("NoDocking", "NoSavedSettings")) then
+			imgui.Text("Settings")
+		end
+		imgui.End()
 	end
 
 	if (self.showAbout[0]) then

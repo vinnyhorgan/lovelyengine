@@ -21,7 +21,26 @@ end
 function Viewport:canvasDraw()
 	lg.clear(135/255, 206/255, 235/255)
 
-	lg.rectangle("fill", 10, 10, 25, 25)
+	if state.current().sceneManager.current then
+		for _, entity in pairs(state.current().sceneManager.current.entities) do
+			local transform = state.current().entityManager:getComponent(entity, "Transform")
+			local spriteRenderer = state.current().entityManager:getComponent(entity, "Sprite Renderer")
+
+			if entity == state.current().entityManager.current then
+				lg.setColor(1, 0, 0)
+				lg.line(transform.x, transform.y, transform.x + 50, transform.y)
+				lg.circle("fill", transform.x + 50, transform.y, 5)
+				lg.setColor(0, 0, 1)
+				lg.line(transform.x, transform.y, transform.x, transform.y - 50)
+				lg.circle("fill", transform.x, transform.y - 50, 5)
+				lg.setColor(1, 1, 1)
+			end
+
+			if spriteRenderer then
+				lg.rectangle("fill", transform.x, transform.y, 25, 25)
+			end
+		end
+	end
 end
 
 function Viewport:draw()
