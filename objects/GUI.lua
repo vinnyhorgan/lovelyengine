@@ -47,8 +47,14 @@ function GUI:draw()
 				state.current().entityManager:newEntity()
 			end
 
-			if imgui.MenuItem_Bool("Add Component") then
-				state.current().console:log("New compoonent")
+			if imgui.BeginMenu("Add Component") then
+				for _, component in pairs(state.current().entityManager.componentList) do
+					if imgui.MenuItem_Bool(component.name) then
+						state.current().entityManager:addComponent(component)
+					end
+				end
+
+				imgui.EndMenu()
 			end
 
 			imgui.EndMenu()
@@ -99,8 +105,6 @@ function GUI:draw()
 		state.current().viewport:draw()
 	end
 	imgui.End()
-
-	imgui.ShowDemoWindow()
 
 	imgui.Render()
 	imgui.love.RenderDrawLists()

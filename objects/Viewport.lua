@@ -28,7 +28,7 @@ function Viewport:draw()
 	local newWidth = imgui.GetWindowWidth()
 	local newHeight = imgui.GetWindowHeight()
 
-	if newWidth ~= self.width or newHeight ~= self.height then
+	if newWidth ~= self.width and newWidth > 100 or newHeight ~= self.height and newHeight > 100 then
 		self:resize(newWidth, newHeight)
 	end
 

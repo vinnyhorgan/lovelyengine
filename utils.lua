@@ -8,6 +8,16 @@ function randomString(length)
 	return s
 end
 
+function isInTable(tab, item)
+	for k, v in pairs(tab) do
+		if v == item then
+			return true
+		end
+	end
+
+	return false
+end
+
 function removeFromTable(tab, item)
 	for k, v in pairs(tab) do
 		if v == item then
