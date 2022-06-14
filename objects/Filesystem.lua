@@ -14,8 +14,6 @@ function Filesystem:draw()
 
 	currentPath = "project/" .. currentPath
 
-	print(currentPath)
-
 	self.items = lf.getDirectoryItems(currentPath)
 
 	if imgui.Button("..") then

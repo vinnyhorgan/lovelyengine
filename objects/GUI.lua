@@ -18,19 +18,7 @@ function GUI:draw()
 	imgui.DockSpaceOverViewport()
 
 	if imgui.BeginMainMenuBar() then
-		if imgui.BeginMenu("Menu") then
-			if imgui.MenuItem_Bool("New Scene") then
-				state.current().sceneManager:newScene()
-			end
-
-			if imgui.MenuItem_Bool("Save Scene") then
-				state.current().sceneManager:save()
-			end
-
-			if imgui.MenuItem_Bool("New Entity") then
-
-			end
-
+		if imgui.BeginMenu("System") then
 			if imgui.MenuItem_Bool("Run") then
 				return state.push(game)
 			end
@@ -42,9 +30,34 @@ function GUI:draw()
 			imgui.EndMenu()
 		end
 
+		if imgui.BeginMenu("Scene") then
+			if imgui.MenuItem_Bool("New") then
+				state.current().sceneManager:newScene()
+			end
+
+			if imgui.MenuItem_Bool("Save") then
+				state.current().sceneManager:save()
+			end
+
+			imgui.EndMenu()
+		end
+
+		if imgui.BeginMenu("Entity") then
+			if imgui.MenuItem_Bool("New") then
+				state.current().entityManager:newEntity()
+			end
+
+			if imgui.MenuItem_Bool("Add Component") then
+				state.current().console:log("New compoonent")
+			end
+
+			imgui.EndMenu()
+		end
+
 		if imgui.BeginMenu("Help") then
 			if imgui.MenuItem_Bool("About") then
 				self.showAbout[0] = true
+				state.current().console:log("Opened window: About")
 			end
 
 			imgui.EndMenu()
@@ -86,6 +99,8 @@ function GUI:draw()
 		state.current().viewport:draw()
 	end
 	imgui.End()
+
+	imgui.ShowDemoWindow()
 
 	imgui.Render()
 	imgui.love.RenderDrawLists()

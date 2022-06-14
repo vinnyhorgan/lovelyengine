@@ -1,6 +1,6 @@
-GameObject = Object:extend()
+Entity = Object:extend()
 
-function GameObject:new()
+function Entity:new()
 	self.name = randomString(5)
 	self.components = {}
 end
