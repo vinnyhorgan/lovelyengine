@@ -15,6 +15,14 @@ function Viewport:resize(width, height)
 	self.width = width - 15
 	self.height = height - 35
 
+	if self.width < 100 then
+		self.width = 100
+	end
+
+	if self.height < 100 then
+		self.height = 100
+	end
+
 	self.canvas = lg.newCanvas(self.width, self.height)
 end
 
@@ -47,7 +55,7 @@ function Viewport:draw()
 	local newWidth = imgui.GetWindowWidth()
 	local newHeight = imgui.GetWindowHeight()
 
-	if newWidth ~= self.width and newWidth > 100 or newHeight ~= self.height and newHeight > 100 then
+	if newWidth ~= self.width or newHeight ~= self.height then
 		self:resize(newWidth, newHeight)
 	end
 

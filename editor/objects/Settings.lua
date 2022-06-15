@@ -4,12 +4,17 @@ function Settings:new()
 	self.name = ffi.new("char[?]", 50)
 	self.run = ffi.new("char[?]", 50)
 	self.edit = ffi.new("char[?]", 50)
+	self.main = ffi.new("char[?]", 50)
 
-	self.settings = self:get()
+	self.settings = self:get() or {name = "", run = "", edit = "", main = ""}
 end
 
 function Settings:get()
-	return binser.deserializeN(lf.read(state.current().project .. "lovely.project"))
+	local settings = lf.read(state.current().project .. "lovely.project")
+
+	if settings then
+		return binser.deserializeN(settings)
+	end
 end
 
 function Settings:draw()
@@ -19,6 +24,8 @@ function Settings:draw()
 	imgui.InputText("Run Command", self.run, 50)
 	imgui.Text(self.settings.edit)
 	imgui.InputText("Edit Command", self.edit, 50)
+	imgui.Text(self.settings.main)
+	imgui.InputText("Main Scene", self.main, 50)
 
 	imgui.Separator()
 
@@ -26,6 +33,7 @@ function Settings:draw()
 		local name = ""
 		local run = ""
 		local edit = ""
+		local main = ""
 
 		if ffi.string(self.name) == "" then
 			name = self.settings.name
@@ -45,10 +53,17 @@ function Settings:draw()
 			edit = ffi.string(self.edit)
 		end
 
+		if ffi.string(self.main) == "" then
+			main = self.settings.main
+		else
+			main = ffi.string(self.main)
+		end
+
 		local settingsTable = {
 			name = name,
 			run = run,
 			edit = edit,
+			main = main
 		}
 
 		lf.write(state.current().project .. "lovely.project", binser.serialize(settingsTable))

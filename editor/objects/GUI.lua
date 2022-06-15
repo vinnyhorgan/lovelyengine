@@ -24,7 +24,7 @@ function GUI:draw()
 				if state.current().sceneManager.current then
 					local runCommand = state.current().settings:get().run
 
-					if runCommand then
+					if runCommand ~= "" then
 						os.execute(runCommand)
 					else
 						state.current().console:log("Command not defined in settings: run")
@@ -37,7 +37,7 @@ function GUI:draw()
 			if imgui.MenuItem_Bool("Edit") then
 				local editCommand = state.current().settings:get().edit
 
-				if editCommand then
+				if editCommand ~= "" then
 					print(lf.getSaveDirectory() .. "/scripts")
 					os.execute(editCommand .. " " .. lf.getSaveDirectory() .. "/scripts")
 				else
